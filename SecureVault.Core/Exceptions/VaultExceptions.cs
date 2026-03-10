@@ -1,0 +1,2 @@
+namespace SecureVault.Core.Exceptions;
+

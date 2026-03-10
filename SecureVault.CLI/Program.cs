@@ -1,1 +1,2 @@
-﻿SecureVault.CLI.ConsoleUI.Main.Start();
+﻿SecureVault.CLI.ConsoleUI.Main consoleUI = new SecureVault.CLI.ConsoleUI.Main();
+consoleUI.Start();

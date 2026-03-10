@@ -1,8 +1,12 @@
+using SecureVault.Core;
+
 namespace SecureVault.CLI.ConsoleUI;
 
-public static class Main
+public class Main
 {
-    public static void Start()
+    private VaultManager vaultManager = new VaultManager();
+
+    public void Start()
     {
         Console.Clear();
         Console.WriteLine("Secure Vault CLI\nType 'help' to view available commands");
@@ -22,9 +26,10 @@ public static class Main
                     Environment.Exit(0);
                     break;
                 case "load-vault":
-                    throw new NotImplementedException();
-                //break;
+                    LoadVault(input);
+                    break;
                 case "create-vault":
+                    CreateVault(input);
                     break;
                 case "delete-vault":
                     throw new NotImplementedException();
@@ -47,7 +52,7 @@ public static class Main
         }
     }
 
-    private static void DisplayHelp()
+    private void DisplayHelp()
     {
         Console.WriteLine("Commands and usage:");
 
@@ -66,5 +71,55 @@ public static class Main
         Console.WriteLine("\nOther:");
         Console.WriteLine("help");
         Console.WriteLine("exit, quit");
+    }
+
+    private void LoadVault(string[] input)
+    {
+
+    }
+
+    private void CreateVault(string[] input)
+    {
+        string vaultName = input[1];
+
+        if (vaultName == "")
+        {
+            Console.WriteLine("Error: No vault name provided.");
+            return;
+        }
+
+        string masterPassword = ConsoleInputHelper.GetSecureInput();
+
+        if (!ConsoleInputHelper.ValidateFollowPasswordRules(masterPassword))
+        {
+            // Placeholder function, this code path will never be triggered currently
+        }
+
+        if (!ConsoleInputHelper.ValidateSecureInput(masterPassword))
+        {
+            Console.WriteLine("Master passwords do not match, please try again");
+            CreateVault(input);
+            return;
+        }
+
+        try
+        {
+            Console.WriteLine("Creating vault");
+            vaultManager.CreateVault(vaultName, masterPassword);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Unhandled exception occured: {e.Message}");
+        }
+    }
+
+    private void DeleteVault(string[] input)
+    {
+
+    }
+
+    private void Lockvault(string[] input)
+    {
+
     }
 }
